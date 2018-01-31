@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Coin</title>
+    <style media="screen">
+        canvas {
+            /* width: 40px;
+            height: 40px; */
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="coinAnimation" width="500" height="500"></canvas>
+    <script src="./sprite4.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+        const coinImage = new Image();
+        coinImage.src = "./walking-demo.svg";
+
+        const canvas = document.getElementById("coinAnimation");
+        // canvas.width = 40;
+        // canvas.height = 40;
+
+        const coin = sprite4({
+            context: canvas.getContext("2d"),
+            width: 260,
+            height: 89,
+            image: coinImage,
+            totalFrames: 4,
+            ticksPerFrame: 1,
+            isInfinite: true,
+            moveStep: 10,
+        })
+
+        let animationId;
+        coinImage.addEventListener("load", gameLoop);
+        function gameLoop () {
+          coin.update();
+          coin.render();
+        }
+
+        window.addEventListener('keydown', (e) => {
+            console.log(e.keyCode);
+            coin.direct(e.keyCode);
+            window.requestAnimationFrame(gameLoop);
+        })
+
+
+        window.addEventListener('keyup', (e) => {
+            console.log(e.keyCode);
+            coin.stop(e.keyCode);
+            coin.render();
+
+            //window.requestAnimationFrame(gameLoop);
+            // window.cancelAnimationFrame(animationId);
+        })
+
+    </script>
+</body>
+</html>
